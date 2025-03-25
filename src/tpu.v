@@ -82,6 +82,13 @@ module tpu (
     end
   end
 
+  always @(posedge clk_i) begin
+  $display("TPU Debug: ensys = %b, pe_we = %b, pe_clr = %b, wep_o = %b, wordp_sel = %h",
+           ensys, pe_we, pe_clr, wep_o, wordp_sel);
+  $display("TPU Data: srca_word = %h, srcb_word = %h, wordp0 = %h, wordp9 = %h",
+           srca_word, srcb_word, wordp0, wordp9);
+  end
+  
   // Source operands
   wire [`WORD_WIDTH-1:0] srca_word, srcb_word;
 
