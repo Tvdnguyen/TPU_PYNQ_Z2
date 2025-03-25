@@ -6,7 +6,7 @@
 // pe.v
 //
 // The process element doing mac operations and propagating the input a and b to
-// its adjacent pe's. The mac operation assumes 16 fixed-point data input with
+// its adjacent PEs. The mac operation assumes 16 fixed-point data input with
 // 8 fraction bits. The computation is done in 16-32-16 manner to ensure better
 // precision. The propagation delay from src to psum is 2 cc's.
 //
@@ -20,6 +20,8 @@ module pe (
   input  rst_ni,
   input  clr_i,  // Clear signal for accumulated value
   output clr_o,  // Propagation of the clear signal
+  input  we_i,   // Write enable for accumulation (thêm)
+  output we_o,   // Propagation of the write enable (thêm)
 
   input  signed [`DATA_WIDTH-1:0] srca_i,
   input  signed [`DATA_WIDTH-1:0] srcb_i,
@@ -31,19 +33,22 @@ module pe (
 
   // Pipeline registers
   reg                     clr_q;
+  reg                     we_q;    // Thêm thanh ghi cho we_i
   reg [`DATA_WIDTH-1:0]   srca_q, srcb_q;
   reg [`DATA_WIDTH*2-1:0] ab_q;
   reg [`DATA_WIDTH*2-1:0] psum_q;
 
   // Input of pipeline registers
   wire                     clr_d  = clr_i;
+  wire                     we_d   = we_i;   // Thêm
   wire [`DATA_WIDTH-1:0]   srca_d = srca_i;
   wire [`DATA_WIDTH-1:0]   srcb_d = srcb_i;
   wire [`DATA_WIDTH*2-1:0] ab_d   = srca_i * srcb_i;
   wire [`DATA_WIDTH*2-1:0] psum_d = ab_q + (clr_q ? 'd0 : psum_q);
 
-  // Assign ouput signals
+  // Assign output signals
   assign clr_o  = clr_q;
+  assign we_o   = we_q;    // Thêm
   assign srca_o = srca_q;
   assign srcb_o = srcb_q;
   assign psum_o = psum_q[8+`DATA_WIDTH-1:8];  // Fraction bits are psum_q[15:0]
@@ -59,12 +64,14 @@ module pe (
     end
   end
 
-  // Pipeline propagation of clear signal
+  // Pipeline propagation of clear and write enable signals
   always @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
       clr_q <= 1'b0;
+      we_q  <= 1'b0;    // Thêm
     end else begin
       clr_q <= clr_d;
+      we_q  <= we_d;    // Thêm
     end
   end
 
@@ -73,10 +80,19 @@ module pe (
     if (!rst_ni) begin
       ab_q   <= 'd0;
       psum_q <= 'd0;
-    end else begin
+    end else if (clr_q) begin
+      ab_q   <= 'd0;
+      psum_q <= 'd0;
+    end else if (we_q) begin  // Thêm điều kiện we_q để điều khiển tích lũy
       ab_q   <= ab_d;
       psum_q <= psum_d;
     end
+  end
+
+  // Debug
+  always @(posedge clk_i) begin
+    $display("PE Debug: clr_i = %b, we_i = %b, srca_i = %h, srcb_i = %h, ab_q = %h, psum_q = %h, psum_o = %h",
+             clr_i, we_i, srca_i, srcb_i, ab_q, psum_q, psum_o);
   end
 
 endmodule
