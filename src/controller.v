@@ -407,8 +407,8 @@ module controller (
 
   // Debug FSM và tiling
   always @(posedge clk_i) begin
-    $display("state_q = %0d, valid_o = %b, n_row_batches = %h, n_col_batches = %h",
-             state_q, valid_o, n_row_batches, n_col_batches);
+  $display("state_q = %0d, valid_o = %b, rd_state_q = %0d, wr_state_q = %0d, n_row_batches = %h, n_col_batches = %h",
+           state_q, valid_o, rd_state_q, wr_state_q, n_row_batches, n_col_batches);
   end
 
 endmodule
