@@ -92,7 +92,7 @@ module controller (
   reg  [8+`OUTPUT_LAT-1:0] row_lat_shift_reg_q;
   reg  [`ADDR_WIDTH-1:0]   addrp_q, addrp_d;
 
-  wire wr_start = row_lat_shift_reg_q[7+`OUTPUT_LAT];
+  wire wr_start = row_lat_shift_reg_q[7 + `OUTPUT_LAT + 2];  // Thêm 2 chu kỳ cho PE pipelinewire wr_start = row_lat_shift_reg_q[7+`OUTPUT_LAT];
 
   // Boundary conditions
   wire row_batch_end    = row_batch_q == n_row_batches - 'd1;
@@ -107,7 +107,7 @@ module controller (
   // PE & systolic input setup control signals
   reg  pe_clr_q, pe_we_q, ensys_q, bubble_q;
   wire pe_clr_d = ~|batch_cycle_q;               // == 0
-  wire pe_we_d  = rd_state_q == `BUSY && batch_cycle_d == (k_i - 'd1);
+  wire pe_we_d = rd_state_q == `BUSY && batch_cycle_d == (k_i - 'd1 - `OUTPUT_LAT - 1);  //wire pe_we_d  = rd_state_q == `BUSY && batch_cycle_d == (k_i - 'd1);
   wire ensys_d  = state_q == `BUSY;
   wire bubble_d = batch_cycle_q > (k_i - 1);     // Insert bubbles when > k
 
