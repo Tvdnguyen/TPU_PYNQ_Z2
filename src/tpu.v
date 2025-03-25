@@ -1,7 +1,7 @@
 //-----------------------------------------------------------------------------
 // Module: TPU
 // Author: Nguyen Trinh
-// Created: jan 10, 2025
+// Created: Jan 10, 2025
 // Last Updated: March 23, 2025
 //-----------------------------------------------------------------------------
 `ifndef _TPU_V
@@ -16,7 +16,7 @@ module tpu (
   input  start_i,
   output valid_o,
 
-  // Matrics dimension
+  // Matrix dimensions
   input  [`ADDR_WIDTH-1:0] m_i,
   input  [`ADDR_WIDTH-1:0] k_i,
   input  [`ADDR_WIDTH-1:0] n_i,
@@ -62,6 +62,10 @@ module tpu (
   wire [`WORD_WIDTH-1:0] wordp0, wordp1, wordp2, wordp3,
                          wordp4, wordp5, wordp6, wordp7, wordp8, wordp9;
 
+  // Source operands
+  wire [`WORD_WIDTH-1:0] srca_word, srcb_word;
+
+  // Output multiplexer
   always @(*) begin
     if (wep_o) begin
       case (wordp_sel)
@@ -82,16 +86,17 @@ module tpu (
     end
   end
 
+  // Debug output
   always @(posedge clk_i) begin
-  $display("TPU Debug: ensys = %b, pe_we = %b, pe_clr = %b, wep_o = %b, wordp_sel = %h",
-           ensys, pe_we, pe_clr, wep_o, wordp_sel);
-  $display("TPU Data: srca_word = %h, srcb_word = %h, wordp0 = %h, wordp9 = %h",
-           srca_word, srcb_word, wordp0, wordp9);
+    $display("TPU Debug: ensys = %b, pe_we = %b, pe_clr = %b, wep_o = %b, wordp_sel = %h, valid_o = %b",
+             ensys, pe_we, pe_clr, wep_o, wordp_sel, valid_o);
+    $display("TPU Data: srca_word = %h, srcb_word = %h, wordp_o = %h",
+             srca_word, srcb_word, wordp_o);
+    $display("PE Outputs: wordp0 = %h, wordp1 = %h, wordp9 = %h",
+             wordp0, wordp1, wordp9);
   end
-  
-  // Source operands
-  wire [`WORD_WIDTH-1:0] srca_word, srcb_word;
 
+  // Instantiate controller
   controller controller (
     .clk_i       (clk_i),
     .rst_ni      (rst_ni),
@@ -128,6 +133,7 @@ module tpu (
     .wordp_sel_o (wordp_sel)
   );
 
+  // Systolic input setup for A
   systolic_input_setup srca_setup (
     .clk_i (clk_i),
     .rst_ni(rst_ni),
@@ -136,6 +142,7 @@ module tpu (
     .skew_o(srca_word)
   );
 
+  // Systolic input setup for B
   systolic_input_setup srcb_setup (
     .clk_i (clk_i),
     .rst_ni(rst_ni),
@@ -144,6 +151,7 @@ module tpu (
     .skew_o(srcb_word)
   );
 
+  // PE array columns
   pe_array col0 (
     .clk_i      (clk_i),
     .rst_ni     (rst_ni),
@@ -239,38 +247,40 @@ module tpu (
     .clk_i      (clk_i),
     .rst_ni     (rst_ni),
     .clr_i      (pe_clr_q7),
-    .clr_o      (),
+    .clr_o      (pe_clr_q8),
     .we_i       (pe_we_q7),
-    .we_o       (),
+    .we_o       (pe_we_q8),
     .srca_word_i(srca_word_q7),
-    .srca_word_o(),
+    .srca_word_o(srca_word_q8),
     .srcb_i     (srcb_word[`DATA7]),
     .wordp_o    (wordp7)
   );
 
   pe_array col8 (
-    .clk_i(clk_i), 
-    .rst_ni(rst_ni), 
-    .clr_i(pe_clr_q8), 
-    .clr_o(pe_clr_q9),
-    .we_i(pe_we_q8), 
-    .we_o(pe_we_q9), 
+    .clk_i      (clk_i),
+    .rst_ni     (rst_ni),
+    .clr_i      (pe_clr_q8),
+    .clr_o      (pe_clr_q9),
+    .we_i       (pe_we_q8),
+    .we_o       (pe_we_q9),
     .srca_word_i(srca_word_q8),
-    .srca_word_o(srca_word_q9), 
-    .srcb_i(srcb_word[`DATA8]), 
-    .wordp_o(wordp8));
-  
+    .srca_word_o(srca_word_q9),
+    .srcb_i     (srcb_word[`DATA8]),
+    .wordp_o    (wordp8)
+  );
+
   pe_array col9 (
-    .clk_i(clk_i), 
-    .rst_ni(rst_ni), 
-    .clr_i(pe_clr_q9), 
-    .clr_o(),    
-    .we_i(pe_we_q9), 
-    .we_o(), 
+    .clk_i      (clk_i),
+    .rst_ni     (rst_ni),
+    .clr_i      (pe_clr_q9),
+    .clr_o      (),
+    .we_i       (pe_we_q9),
+    .we_o       (),
     .srca_word_i(srca_word_q9),
-    .srca_word_o(), 
-    .srcb_i(srcb_word[`DATA9]), 
-    .wordp_o(wordp9));
+    .srca_word_o(),
+    .srcb_i     (srcb_word[`DATA9]),
+    .wordp_o    (wordp9)
+  );
 
 endmodule
 
