@@ -1,12 +1,11 @@
 //-----------------------------------------------------------------------------
 // Module: controller.v
 // Author: Nguyen Trinh
-// Created: jan 10, 2025
+// Created: Jan 10, 2025
 // Last Updated: March 23, 2025
 // 
-//
 // State machine based controller for the mm accelerator. The controller accepts
-// the dimension of matrics, base addresses of where to read or where to write,
+// the dimension of matrices, base addresses of where to read or where to write,
 // and the start signal and then generates control signals for all components.
 //
 `ifndef _CONTROLLER_V
@@ -25,7 +24,7 @@ module controller (
   input  start_i,
   output valid_o,
 
-  // Matrics dimension
+  // Matrix dimensions
   input  [`ADDR_WIDTH-1:0] m_i,
   input  [`ADDR_WIDTH-1:0] k_i,
   input  [`ADDR_WIDTH-1:0] n_i,
@@ -65,8 +64,8 @@ module controller (
   reg [1:0] state_q, state_d;
 
   // Boundaries for batches (constant)
-  wire [`ADDR_WIDTH-1:0] n_row_batches  = m_i + 'h00A - 'h001 >> 3;   // m / 10
-  wire [`ADDR_WIDTH-1:0] n_col_batches  = n_i + 'h00A - 'h001 >> 3;   // n / 10
+  wire [`ADDR_WIDTH-1:0] n_row_batches = (m_i + 9) / 10;  //  10/10 = 1
+  wire [`ADDR_WIDTH-1:0] n_col_batches = (n_i + 9) / 10;  //  10/10 = 1
   wire [`ADDR_WIDTH-1:0] n_batch_cycles = k_i < 'h00A ? 'h00A : k_i;  // >= 10
 
   // Counters for batches
@@ -404,6 +403,12 @@ module controller (
         state_d = `IDLE;
       end
     endcase
+  end
+
+  // Debug FSM và tiling
+  always @(posedge clk_i) begin
+    $display("state_q = %0d, valid_o = %b, n_row_batches = %h, n_col_batches = %h",
+             state_q, valid_o, n_row_batches, n_col_batches);
   end
 
 endmodule
