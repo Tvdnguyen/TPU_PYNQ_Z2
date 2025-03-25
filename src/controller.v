@@ -92,7 +92,7 @@ module controller (
   reg  [8+`OUTPUT_LAT-1:0] row_lat_shift_reg_q;
   reg  [`ADDR_WIDTH-1:0]   addrp_q, addrp_d;
 
-  wire wr_start = row_lat_shift_reg_q[7 + `OUTPUT_LAT + 2];  // Thêm 2 chu kỳ cho PE pipelinewire wr_start = row_lat_shift_reg_q[7+`OUTPUT_LAT];
+  wire wr_start = row_lat_shift_reg_q[7 + `OUTPUT_LAT + 2];  // Thêm 2 chu kỳ cho PE pipeline wire wr_start = row_lat_shift_reg_q[7+`OUTPUT_LAT];
 
   // Boundary conditions
   wire row_batch_end    = row_batch_q == n_row_batches - 'd1;
@@ -294,7 +294,7 @@ module controller (
           if (wr_start) begin
             wr_state_d = `BUSY;
           end else if (col_lat_cnt_q == batch_n) begin
-            if (rd_state_q == `DONE && ~|row_lat_shift_reg_q) begin
+            if (rd_state_q == `DONE && wr_col_batch_q == n_col_batches - 1) begin // if (rd_state_q == `DONE && ~|row_lat_shift_reg_q) begin
               wr_state_d = `DONE;
             end else begin
               wr_state_d = `IDLE;
@@ -407,10 +407,13 @@ module controller (
 
   // Debug FSM và tiling
   always @(posedge clk_i) begin
-  $display("state_q = %0d, valid_o = %b, rd_state_q = %0d, wr_state_q = %0d, n_row_batches = %h, n_col_batches = %h",
-           state_q, valid_o, rd_state_q, wr_state_q, n_row_batches, n_col_batches);
-  end
-
+  $display("Controller Debug: state_q = %0d, rd_state_q = %0d, wr_state_q = %0d, valid_o = %b",
+           state_q, rd_state_q, wr_state_q, valid_o);
+  $display("Counters: batch_cycle_q = %h, row_batch_q = %h, col_batch_q = %h, wr_col_batch_q = %h",
+           batch_cycle_q, row_batch_q, col_batch_q, wr_col_batch_q);
+  $display("Pipeline: row_lat_shift_reg_q = %b, col_lat_cnt_q = %h",
+           row_lat_shift_reg_q, col_lat_cnt_q);
+end
 endmodule
 
 `endif
