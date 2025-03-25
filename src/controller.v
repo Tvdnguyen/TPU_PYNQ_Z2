@@ -64,8 +64,8 @@ module controller (
   reg [1:0] state_q, state_d;
 
   // Boundaries for batches (constant)
-  wire [`ADDR_WIDTH-1:0] n_row_batches = (m_i + 9) / 10;  //  10/10 = 1
-  wire [`ADDR_WIDTH-1:0] n_col_batches = (n_i + 9) / 10;  //  10/10 = 1
+  wire [`ADDR_WIDTH-1:0] n_row_batches = (m_i + 9) / 10;  // 10/10 = 1
+  wire [`ADDR_WIDTH-1:0] n_col_batches = (n_i + 9) / 10;  // 10/10 = 1
   wire [`ADDR_WIDTH-1:0] n_batch_cycles = k_i < 'h00A ? 'h00A : k_i;  // >= 10
 
   // Counters for batches
@@ -107,9 +107,19 @@ module controller (
   // PE & systolic input setup control signals
   reg  pe_clr_q, pe_we_q, ensys_q, bubble_q;
   wire pe_clr_d = ~|batch_cycle_q;               // == 0
-  wire pe_we_d  = rd_state_q == `BUSY && batch_cycle_d == (k_i - 'd1);
+  wire pe_we_d  = rd_state_q == `BUSY && batch_cycle_q < k_i;  // Sửa: bật pe_we mỗi chu kỳ trong batch
   wire ensys_d  = state_q == `BUSY;
-  wire bubble_d = batch_cycle_q > (k_i - 1);     // Insert bubbles when > k
+  wire bubble_d = batch_cycle_q > (k_i - 1);     // Insert bubbles khi > k
+
+  // Pipeline delay cho wep_o
+  reg [2:0] we_shift_reg_q;
+  always @(posedge clk_i or negedge rst_ni) begin
+    if (!rst_ni) begin
+      we_shift_reg_q <= 3'b000;
+    end else begin
+      we_shift_reg_q <= {we_shift_reg_q[1:0], pe_we_q};
+    end
+  end
 
   // Assign output signals
   assign valid_o  = state_q == `DONE;
@@ -119,20 +129,20 @@ module controller (
   assign bubble_o = bubble_q;
 
   // Global buffer interfaces
-  assign ena_o   = rd_en;    // Enable when read enable
-  assign wea_o   = 1'b0;     // Always read
+  assign ena_o   = rd_en;    // Enable khi read enable
+  assign wea_o   = 1'b0;     // Luôn đọc
   assign addra_o = rd_en ? batch_base_addra + (batch_cycle_q << 4) : 'd0;
 
-  assign enb_o   = rd_en;    // Enable when read enable
-  assign web_o   = 1'b0;     // Always read
+  assign enb_o   = rd_en;    // Enable khi read enable
+  assign web_o   = 1'b0;     // Luôn đọc
   assign addrb_o = rd_en ? batch_base_addrb + (batch_cycle_q << 4) : 'd0;
 
-  assign enp_o   = wr_en;    // Enable when write enable
-  assign wep_o   = wr_en;    // Write enable when write enable
+  assign enp_o   = wr_en;    // Enable khi write enable
+  assign wep_o   = we_shift_reg_q[2];  // Sửa: Trì hoãn wep_o để đồng bộ với OUTPUT_LAT
   assign addrp_o = wr_en ? base_addrp_i + addrp_q << 4 : 'd0;
 
   // Word P select signal
-  assign wordp_sel_o = wr_en ? col_lat_cnt_q : 'o0;
+  assign wordp_sel_o = wr_en ? col_lat_cnt_q - `OUTPUT_LAT : 'o0;  // Sửa: Điều chỉnh cho pipeline
 
   // PE & systolic input setup control signals
   always @(posedge clk_i or negedge rst_ni) begin
@@ -175,11 +185,11 @@ module controller (
       row_batch_d = 'd0;
     end else if (rd_state_q == `BUSY) begin
       if (row_batch_end && col_batch_end && batch_end) begin
-        row_batch_d = 'd0;                // Reset when all end
+        row_batch_d = 'd0;                // Reset khi tất cả kết thúc
       end else if (col_batch_end && batch_end) begin
-        row_batch_d = row_batch_q + 'd1;  // Increment as col batch ends
+        row_batch_d = row_batch_q + 'd1;  // Tăng khi col batch kết thúc
       end else begin
-        row_batch_d = row_batch_q;        // Remain unchanged
+        row_batch_d = row_batch_q;        // Giữ nguyên
       end
     end else begin
       row_batch_d = row_batch_q;
@@ -192,11 +202,11 @@ module controller (
       col_batch_d = 'd0;
     end else if (rd_state_q == `BUSY) begin
       if (col_batch_end && batch_end) begin
-        col_batch_d = 'd0;                // Reset when column batch ends
+        col_batch_d = 'd0;                // Reset khi column batch kết thúc
       end else if (batch_end) begin
-        col_batch_d = col_batch_q + 'd1;  // Increment as batch ends
+        col_batch_d = col_batch_q + 'd1;  // Tăng khi batch kết thúc
       end else begin
-        col_batch_d = col_batch_q;        // Remain unchanged
+        col_batch_d = col_batch_q;        // Giữ nguyên
       end
     end else begin
       col_batch_d = col_batch_q;
@@ -205,11 +215,11 @@ module controller (
 
   // Batch cycle counter (fastest)
   always @(*) begin
-    if (rd_state_q == `BUSY) begin            // when read enable
+    if (rd_state_q == `BUSY) begin            // Khi read enable
       if (batch_end) begin
-        batch_cycle_d = 'd0;                  // Reset when ends
+        batch_cycle_d = 'd0;                  // Reset khi kết thúc
       end else begin
-        batch_cycle_d = batch_cycle_q + 'd1;  // Increment every cycle
+        batch_cycle_d = batch_cycle_q + 'd1;  // Tăng mỗi chu kỳ
       end
     end else begin
       batch_cycle_d = 'd0;
@@ -244,9 +254,10 @@ module controller (
   always @(posedge clk_i or negedge rst_ni) begin
     if (!rst_ni) begin
       row_lat_shift_reg_q <= 'd0;
+    end else if (rd_state_q == `BUSY) begin
+      row_lat_shift_reg_q <= {row_lat_shift_reg_q[8+`OUTPUT_LAT-2:0], 1'b1};  // Sửa: Dịch khi đọc
     end else begin
-      row_lat_shift_reg_q <=
-        { row_lat_shift_reg_q[8+`OUTPUT_LAT-2:0], pe_we_q };
+      row_lat_shift_reg_q <= row_lat_shift_reg_q;
     end
   end
 
@@ -291,9 +302,7 @@ module controller (
           wr_state_d = wr_start ? `BUSY : `IDLE;
         end
         `BUSY: begin
-          if (wr_start) begin
-            wr_state_d = `BUSY;
-          end else if (col_lat_cnt_q == batch_n) begin
+          if (col_lat_cnt_q == batch_n && row_lat_shift_reg_q[7+`OUTPUT_LAT]) begin  // Sửa: Điều kiện thoát
             if (rd_state_q == `DONE && ~|row_lat_shift_reg_q) begin
               wr_state_d = `DONE;
             end else begin
@@ -304,11 +313,7 @@ module controller (
           end
         end
         `DONE: begin
-          if (|row_lat_shift_reg_q) begin
-            wr_state_d = `IDLE;
-          end else begin
-            wr_state_d = state_q == `DONE ? `IDLE : `DONE;
-          end
+          wr_state_d = state_q == `DONE ? `IDLE : `DONE;
         end
         default: begin
           wr_state_d = `IDLE;
@@ -369,7 +374,7 @@ module controller (
     end else if (wr_en) begin
       addrp_d = addrp_q + 'd1;
     end else begin
-      addrp_d = addrp_q;  // unchanged
+      addrp_d = addrp_q;  // Giữ nguyên
     end
   end
 
@@ -388,7 +393,7 @@ module controller (
         state_d = start_i ? `BUSY : `IDLE;
       end
       `BUSY: begin
-        // Until done reading and done writing
+        // Cho đến khi đọc và ghi hoàn tất
         if (rd_state_q == `DONE && wr_state_q == `DONE) begin
           state_d = `DONE;
         end else begin
@@ -396,7 +401,7 @@ module controller (
         end
       end
       `DONE: begin
-        // Wait for start_i being pulled down
+        // Chờ start_i được kéo xuống
         state_d = !start_i ? `IDLE : `DONE;
       end
       default: begin
@@ -407,8 +412,12 @@ module controller (
 
   // Debug FSM và tiling
   always @(posedge clk_i) begin
-  $display("state_q = %0d, valid_o = %b, rd_state_q = %0d, wr_state_q = %0d, n_row_batches = %h, n_col_batches = %h",
-           state_q, valid_o, rd_state_q, wr_state_q, n_row_batches, n_col_batches);
+    $display("state_q = %0d, valid_o = %b, rd_state_q = %0d, wr_state_q = %0d, n_row_batches = %h, n_col_batches = %h",
+             state_q, valid_o, rd_state_q, wr_state_q, n_row_batches, n_col_batches);
+    $display("Counters: batch_cycle_q = %h, row_batch_q = %h, col_batch_q = %h, wr_col_batch_q = %h",
+             batch_cycle_q, row_batch_q, col_batch_q, wr_col_batch_q);
+    $display("Pipeline: row_lat_shift_reg_q = %b, col_lat_cnt_q = %h, we_shift_reg_q = %b",
+             row_lat_shift_reg_q, col_lat_cnt_q, we_shift_reg_q);
   end
 
 endmodule
