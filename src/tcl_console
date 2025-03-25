@@ -3,6 +3,499 @@ Starting simulation...
 clk_i = 1, rst_ni = 0
 state_q = 0, valid_o = 0, n_row_batches = 000, n_col_batches = 000
 state_q = 0, valid_o = 0, n_row_batches = 000, n_col_batches = 000
+Test 1: Matrix Multiplication 10 lombokx10 x 10x10
+buffer_a[00000000] = 000a000900080007000600050004000300020001
+buffer_b[00000000] = 0000000000000000000000000000000000000002
+buffer_a[00000010] = 001400120010000e000c000a0008000600040002
+buffer_b[00000010] = 0000000000000000000000000000000000020000
+buffer_a[00000020] = 001e001b001800150012000f000c000900060003
+buffer_b[00000020] = 0000000000000000000000000000000200000000
+buffer_a[00000030] = 002800240020001c001800140010000c00080004
+buffer_b[00000030] = 0000000000000000000000000002000000000000
+buffer_a[00000040] = 0032002d00280023001e00190014000f000a0005
+buffer_b[00000040] = 0000000000000000000000020000000000000000
+buffer_a[00000050] = 003c00360030002a0024001e00180012000c0006
+buffer_b[00000050] = 0000000000000000000200000000000000000000
+buffer_a[00000060] = 0046003f00380031002a0023001c0015000e0007
+buffer_b[00000060] = 0000000000000002000000000000000000000000
+buffer_a[00000070] = 0050004800400038003000280020001800100008
+buffer_b[00000070] = 0000000000020000000000000000000000000000
+buffer_a[00000080] = 005a00510048003f0036002d0024001b00120009
+buffer_b[00000080] = 0000000200000000000000000000000000000000
+buffer_a[00000090] = 0064005a00500046003c00320028001e0014000a
+buffer_b[00000090] = 0002000000000000000000000000000000000000
+After reset: clk_i = 1, rst_ni = 1
+state_q = 0, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+state_q = 0, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+After start: clk_i = 0, rst_ni = 1, start_i = 0, valid_o = 0
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 0, wep_o = 0
+No read A, ena_o = 0
+No read B, enb_o = 0
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 1, enb_o = 1, enp_o = 0, wep_o = 0
+Reading A from addr 000: 000a000900080007000600050004000300020001
+Reading B from addr 100: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 1, enb_o = 1, enp_o = 0, wep_o = 0
+Reading A from addr 010: 001400120010000e000c000a0008000600040002
+Reading B from addr 110: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 1, enb_o = 1, enp_o = 0, wep_o = 0
+Reading A from addr 020: 001e001b001800150012000f000c000900060003
+Reading B from addr 120: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 1, enb_o = 1, enp_o = 0, wep_o = 0
+Reading A from addr 030: 002800240020001c001800140010000c00080004
+Reading B from addr 130: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 1, enb_o = 1, enp_o = 0, wep_o = 0
+Reading A from addr 040: 0032002d00280023001e00190014000f000a0005
+Reading B from addr 140: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 1, enb_o = 1, enp_o = 0, wep_o = 0
+Reading A from addr 050: 003c00360030002a0024001e00180012000c0006
+Reading B from addr 150: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 1, enb_o = 1, enp_o = 0, wep_o = 0
+Reading A from addr 060: 0046003f00380031002a0023001c0015000e0007
+Reading B from addr 160: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 1, enb_o = 1, enp_o = 0, wep_o = 0
+Reading A from addr 070: 0050004800400038003000280020001800100008
+Reading B from addr 170: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 1, enb_o = 1, enp_o = 0, wep_o = 0
+Reading A from addr 080: 005a00510048003f0036002d0024001b00120009
+Reading B from addr 180: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 1, enb_o = 1, enp_o = 0, wep_o = 0
+Reading A from addr 090: 0064005a00500046003c00320028001e0014000a
+Reading B from addr 190: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 0, wep_o = 0
+No read A, ena_o = 0
+No read B, enb_o = 0
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 0, wep_o = 0
+No read A, ena_o = 0
+No read B, enb_o = 0
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 0, wep_o = 0
+No read A, ena_o = 0
+No read B, enb_o = 0
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 0, wep_o = 0
+No read A, ena_o = 0
+No read B, enb_o = 0
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 0, wep_o = 0
+No read A, ena_o = 0
+No read B, enb_o = 0
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 0, wep_o = 0
+No read A, ena_o = 0
+No read B, enb_o = 0
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 0, wep_o = 0
+No read A, ena_o = 0
+No read B, enb_o = 0
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 0, wep_o = 0
+No read A, ena_o = 0
+No read B, enb_o = 0
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 0, wep_o = 0
+No read A, ena_o = 0
+No read B, enb_o = 0
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 0, wep_o = 0
+No read A, ena_o = 0
+No read B, enb_o = 0
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 000: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 010: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 020: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 030: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 040: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 050: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 060: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 070: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 080: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 090: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 0a0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 0b0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 0c0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 0d0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 0e0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 0f0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 100: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 110: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 120: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 130: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 140: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 150: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 160: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 170: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 180: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 190: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 1a0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 1b0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 1c0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 1d0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 1e0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 1f0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 200: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 210: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 220: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 230: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 240: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 250: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 260: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 270: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 280: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 290: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 2a0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 2b0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 2c0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 2d0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 2e0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 2f0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 300: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 310: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 320: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 330: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 340: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 350: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 360: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 370: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 380: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 390: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 3a0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 3b0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 3c0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 3d0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 3e0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 3f0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 400: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 410: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 420: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 430: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 440: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 450: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 460: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 470: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 480: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 490: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+State: valid_o = 0, ena_o = 0, enb_o = 0, enp_o = 1, wep_o = 1
+No read A, ena_o = 0
+No read B, enb_o = 0
+Writing P to addr 4a0: 0000000000000000000000000000000000000000
+state_q = 1, valid_o = 0, n_row_batches = 001, n_col_batches = 001
+Simulation timeout after 1000ns! valid_o = 0
+$finish called at time : 1 us : File "D:/PhD_2025/SA_ver1/sa_ver1/sa_ver1.srcs/sources_1/imports/src/tb_tpu.v" Line 56
+
+######################################################
+# run 1000ns
+Starting simulation...
+clk_i = 1, rst_ni = 0
+state_q = 0, valid_o = 0, n_row_batches = 000, n_col_batches = 000
+state_q = 0, valid_o = 0, n_row_batches = 000, n_col_batches = 000
 Test 1: Matrix Multiplication 10x10 x 10x10
 buffer_a[00000000] = 000a000900080007000600050004000300020001
 buffer_b[00000000] = 0000000000000000000000000000000000000002
