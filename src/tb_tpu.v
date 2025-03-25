@@ -52,8 +52,17 @@ module tb_tpu;
   // Timeout block
   initial begin
     #1000;
-    $display("Simulation timeout after 1000ns!");
+    $display("Simulation timeout after 1000ns! valid_o = %b", valid_o);
     $finish;
+  end
+
+  // Debug clock and basic signals
+  initial begin
+    $display("Starting simulation...");
+    #5 $display("clk_i = %b, rst_ni = %b", clk_i, rst_ni);
+    #15 $display("After reset: clk_i = %b, rst_ni = %b", clk_i, rst_ni);
+    #25 $display("After start: clk_i = %b, rst_ni = %b, start_i = %b, valid_o = %b", 
+                 clk_i, rst_ni, start_i, valid_o);
   end
 
   // Test procedure
@@ -69,7 +78,7 @@ module tb_tpu;
     worda_i = 0;
     wordb_i = 0;
 
-    #20 rst_ni = 1;
+    #20 rst_ni = 1;  // De-assert reset sau 20ns
 
     $display("Test 1: Matrix Multiplication 10x10 x 10x10");
     m_i = 10; k_i = 10; n_i = 10;
@@ -90,12 +99,14 @@ module tb_tpu;
       $display("buffer_b[%h] = %h", i, buffer_b[i]);
     end
 
-    #10 start_i = 1;
-    #10 start_i = 0;
+    #10 start_i = 1;  // Bật start_i tại 30ns
+    #10 start_i = 0;  // Tắt start_i tại 40ns
 
-    // Simulate global buffer read/write
+    // Simulate global buffer read/write với điều kiện thoát phụ
     while (!valid_o) begin
       @(posedge clk_i);
+      $display("State: valid_o = %b, ena_o = %b, enb_o = %b, enp_o = %b, wep_o = %b",
+               valid_o, ena_o, enb_o, enp_o, wep_o);
 
       if (ena_o && !wea_o) begin
         worda_i = buffer_a[addra_o];
