@@ -48,11 +48,15 @@ module tb_tpu;
   reg [`WORD_WIDTH-1:0] expected_p [0:4095];
   integer i, j, cycle_count;
 
+  // Timeout block
   initial begin
     #1000;
     $display("Simulation timeout after 1000ns!");
     $finish;
+  end
 
+  // Test procedure
+  initial begin
     rst_ni = 0;
     start_i = 0;
     m_i = 0;
@@ -91,6 +95,7 @@ module tb_tpu;
         $display("Cycle %0d: Reading A from addr %h: %h", cycle_count, addra_o, worda_i);
       end else begin
         worda_i = 0;
+        $display("Cycle %0d: No read A, ena_o = %b", cycle_count, ena_o);
       end
 
       if (enb_o && !web_o) begin
@@ -98,6 +103,7 @@ module tb_tpu;
         $display("Cycle %0d: Reading B from addr %h: %h", cycle_count, addrb_o, wordb_i);
       end else begin
         wordb_i = 0;
+        $display("Cycle %0d: No read B, enb_o = %b", cycle_count, enb_o);
       end
 
       if (enp_o && wep_o) begin
