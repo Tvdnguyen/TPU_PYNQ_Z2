@@ -1,12 +1,11 @@
 //-----------------------------------------------------------------------------
 // Module: systolic_input_setup
 // Author: Nguyen Trinh
-// Created: jan 10, 2025
+// Created: Jan 10, 2025
 // Last Updated: March 23, 2025
-
 // 
 // Using shift registers to skew the word so that the timing is correct for
-// futhur computation.
+// further computation.
 //
 //  buf_q
 //  |  buf_q2
@@ -15,8 +14,8 @@
 //  |  |  |  |  buf_q5
 //  |  |  |  |  |  buf_q6
 //  |  |  |  |  |  |  buf_q7
-//  |  |  |  |  |  |  |   buf_q8
-//  |  |  |  |  |  |  |   |  buf_q9
+//  |  |  |  |  |  |  |  buf_q8
+//  |  |  |  |  |  |  |  |  buf_q9
 `ifndef _SYSTOLIC_INPUT_SETUP_V
 `define _SYSTOLIC_INPUT_SETUP_V
 
@@ -71,6 +70,13 @@ module systolic_input_setup (
         buf_q9 <= buf_q8[`DATA_WIDTH*2-1:`DATA_WIDTH];
       end
     end
+  end
+
+  // Debug
+  always @(posedge clk_i) begin
+    $display("Systolic Input Debug: en_i = %b, word_i = %h, skew_o = %h",
+             en_i, word_i, skew_o);
+    $display("Shift Regs: buf_q1 = %h, buf_q9 = %h", buf_q1, buf_q9);
   end
 
 endmodule
