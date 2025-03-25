@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Module: DSP_Group
+// Module: tb_tpu
 // Author: Nguyen Trinh
 // Created: jan 10, 2025
 // Last Updated: March 23, 2025
