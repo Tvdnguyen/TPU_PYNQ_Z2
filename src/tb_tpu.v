@@ -78,57 +78,56 @@ module tb_tpu;
     worda_i = 0;
     wordb_i = 0;
 
-    #20 rst_ni = 1;  // De-assert reset sau 20ns
+    #20 rst_ni = 1;
 
-    $display("Test 1: Matrix Multiplication 10x10 x 10x10");
-    m_i = 10; k_i = 10; n_i = 10;
-    base_addra_i = 12'h000; base_addrb_i = 12'h100; base_addrp_i = 12'h200;
+  $display("Test 1: Matrix Multiplication 10 lombokx10 x 10x10");
+  m_i = 10; k_i = 10; n_i = 10;
+  base_addra_i = 12'h000; base_addrb_i = 12'h100; base_addrp_i = 12'h200;
 
-    // Initialize buffers
-    for (i = 0; i < 10; i = i + 1) begin
-      for (j = 0; j < 10; j = j + 1) begin
-        buffer_a[i][j*16 +: 16] = (i + 1) * (j + 1);
-        buffer_b[i][j*16 +: 16] = (i == j) ? 2 : 0;
-        expected_p[i][j*16 +: 16] = buffer_a[i][j*16 +: 16] * 2;
-      end
+  // Khởi tạo buffer với địa chỉ phù hợp
+  for (i = 0; i < 10; i = i + 1) begin
+    for (j = 0; j < 10; j = j + 1) begin
+      buffer_a[i * 16][j*16 +: 16] = (i + 1) * (j + 1);  // Địa chỉ tăng theo 16
+      buffer_b[i * 16][j*16 +: 16] = (i == j) ? 2 : 0;
+      expected_p[i * 16][j*16 +: 16] = buffer_a[i * 16][j*16 +: 16] * 2;
+    end
+  end
+
+  // In buffer để kiểm tra
+  for (i = 0; i < 10; i = i + 1) begin
+    $display("buffer_a[%h] = %h", i * 16, buffer_a[i * 16]);
+    $display("buffer_b[%h] = %h", i * 16, buffer_b[i * 16]);
+  end
+
+  #10 start_i = 1;
+  #10 start_i = 0;
+
+  while (!valid_o) begin
+    @(posedge clk_i);
+    $display("State: valid_o = %b, ena_o = %b, enb_o = %b, enp_o = %b, wep_o = %b",
+             valid_o, ena_o, enb_o, enp_o, wep_o);
+
+    if (ena_o && !wea_o) begin
+      worda_i = buffer_a[addra_o];
+      $display("Reading A from addr %h: %h", addra_o, worda_i);
+    end else begin
+      worda_i = 0;
+      $display("No read A, ena_o = %b", ena_o);
     end
 
-    // Print buffers for verification
-    for (i = 0; i < 10; i = i + 1) begin
-      $display("buffer_a[%h] = %h", i, buffer_a[i]);
-      $display("buffer_b[%h] = %h", i, buffer_b[i]);
+    if (enb_o && !web_o) begin
+      wordb_i = buffer_b[addrb_o];
+      $display("Reading B from addr %h: %h", addrb_o, wordb_i);
+    end else begin
+      wordb_i = 0;
+      $display("No read B, enb_o = %b", enb_o);
     end
 
-    #10 start_i = 1;  // Bật start_i tại 30ns
-    #10 start_i = 0;  // Tắt start_i tại 40ns
-
-    // Simulate global buffer read/write với điều kiện thoát phụ
-    while (!valid_o) begin
-      @(posedge clk_i);
-      $display("State: valid_o = %b, ena_o = %b, enb_o = %b, enp_o = %b, wep_o = %b",
-               valid_o, ena_o, enb_o, enp_o, wep_o);
-
-      if (ena_o && !wea_o) begin
-        worda_i = buffer_a[addra_o];
-        $display("Reading A from addr %h: %h", addra_o, worda_i);
-      end else begin
-        worda_i = 0;
-        $display("No read A, ena_o = %b", ena_o);
-      end
-
-      if (enb_o && !web_o) begin
-        wordb_i = buffer_b[addrb_o];
-        $display("Reading B from addr %h: %h", addrb_o, wordb_i);
-      end else begin
-        wordb_i = 0;
-        $display("No read B, enb_o = %b", enb_o);
-      end
-
-      if (enp_o && wep_o) begin
-        buffer_p[addrp_o] = wordp_o;
-        $display("Writing P to addr %h: %h", addrp_o, wordp_o);
-      end
+    if (enp_o && wep_o) begin
+      buffer_p[addrp_o] = wordp_o;
+      $display("Writing P to addr %h: %h", addrp_o, wordp_o);
     end
+  end
 
     #20;
     $display("Test 1 Results:");
